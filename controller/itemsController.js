@@ -26,11 +26,11 @@ const docClient = new DynamoDBClient({ regions: process.env.AWS_REGION });
 // TODO #1.1: Get items from DynamoDB
 exports.getItems = async (req, res) => {
   // You should change the response below.
-  // res.send("This route should get all items in DynamoDB.");
   const params = {
     TableName: process.env.aws_items_table_name,
   };
   try {
+    // res.send("This route should get all items in DynamoDB.");
     const data = await docClient.send(new ScanCommand(params));
     res.send(data.Items);
   } catch (err) {
