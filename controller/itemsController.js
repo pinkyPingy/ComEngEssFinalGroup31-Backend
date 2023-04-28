@@ -9,7 +9,7 @@ const {
 } = require("@aws-sdk/lib-dynamodb");
 
 const docClient = new DynamoDBClient({ regions: process.env.AWS_REGION });
-
+const { UpdateCommand } = require("@aws-sdk/lib-dynamodb");
 // exports.getGroupMembers = async (req, res) => {
 //   const params = {
 //     TableName: process.env.aws_group_members_table_name,
