@@ -54,7 +54,7 @@ exports.accessToken = (req, res) => {
           if (token) {
             res.writeHead(302, {
               //Delete after '/' to go back to normal na kup
-              Location: `http://${process.env.frontendIPAddress}/index_editable_todolist.html`,
+              Location: `http://${process.env.frontendIPAddress}/`,
             });
             res.end();
           }
@@ -146,7 +146,7 @@ exports.getCourses = (req, res) => {
       },
     };
     const profileReq = https.request(
-      "https://www.mycourseville.com/api/v1/public/get/user/courses?detail=1",
+      "https://www.mycourseville.com/api/v1/public/get/user/courses",
       profileOptions,
       (profileRes) => {
         let profileData = "";
