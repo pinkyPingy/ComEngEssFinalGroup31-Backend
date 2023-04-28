@@ -80,3 +80,36 @@ exports.deleteItem = async (req, res) => {
     res.status(500).send(err);
   }
 };
+
+exports.editItem = async (req, res) => {
+  const item_id = req.params.item_id;
+  const updatedItem = req.body;
+
+  const expressionAttributeValues = {};
+  const expressionAttributeNames = {};
+  const updateExpression = [];
+
+  for (const [key, value] of Object.entries(updatedItem)) {
+    expressionAttributeValues[`:${key}`] = value;
+    expressionAttributeNames[`#${key}`] = key;
+    updateExpression.push(`#${key} = :${key}`);
+  }
+
+  const params = {
+    TableName: process.env.aws_items_table_name,
+    Key: { item_id },
+    UpdateExpression: `SET ${updateExpression.join(', ')}`,
+    ExpressionAttributeValues: expressionAttributeValues,
+    ExpressionAttributeNames: expressionAttributeNames,
+    ReturnValues: 'ALL_NEW'
+  };
+
+  try {
+    const data = await docClient.send(new UpdateCommand(params));
+    res.send(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+};
+
