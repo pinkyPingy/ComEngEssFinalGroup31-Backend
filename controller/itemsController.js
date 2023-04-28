@@ -113,3 +113,28 @@ exports.editItem = async (req, res) => {
   }
 };
 
+const { GetItemCommand } = require("@aws-sdk/client-dynamodb");
+
+exports.getItemById = async (req, res) => {
+  const item_id = req.params.item_id;
+
+  const params = {
+    TableName: process.env.aws_items_table_name,
+    Key: {
+      item_id: { S: item_id }
+    }
+  };
+  try {
+    const data = await docClient.send(new GetItemCommand(params));
+    if (data.Item) {
+      res.send(data.Item);
+    } else {
+      res.status(404).send("Item not found");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+};
+
+
