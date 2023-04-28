@@ -218,3 +218,16 @@ exports.logout = (req, res) => {
   res.redirect(`http://${process.env.frontendIPAddress}/`);
   res.end();
 };
+
+exports.checkAuth = (req, res) => {
+  try {
+    if (req.session.token.access_token != undefined) {
+      res.json({ "data": { "status": 1 } });
+    }
+  }
+  catch (err) {
+    res.json({ "data": { "status": 0 } });
+    console.log("user is not logged in");
+  }
+  res.end();
+}
